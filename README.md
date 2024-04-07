@@ -1,4 +1,4 @@
-* [Główne informacje](#Główne informacje)
+* [Główne informacje](#Główne-informacje)
 * [Spodziewany wyniki](#spodziewany-wynik)
 * [Główne klasy i metody](#główne-klasy-i-metody)
 * [Docker](#docker)
