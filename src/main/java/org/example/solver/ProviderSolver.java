@@ -5,10 +5,10 @@ import java.util.*;
 public class ProviderSolver extends LinkedHashSet<Provider> {
 
     private Provider bestProvider;
-    private final List<Provider> providers;
-    private final Set<String> products;
+    private final TreeSet<Provider> providers;
+    private final List<String> products;
 
-    public ProviderSolver(HashSet<String> products, List<Provider> providers){
+    public ProviderSolver(List<String> products, TreeSet<Provider> providers){
         this.products = products;
         bestProvider = new Provider();
         this.providers = providers;
@@ -31,7 +31,7 @@ public class ProviderSolver extends LinkedHashSet<Provider> {
         bestProvider.setProducts(coveredElements);
     }
 
-     private LinkedHashSet<String> providersIntersection(Set<String> items, HashSet<String> products) {
+     private LinkedHashSet<String> providersIntersection(List<String> items, HashSet<String> products) {
         LinkedHashSet<String> setProducts = new LinkedHashSet<>(items);
         setProducts.retainAll(products);
         return setProducts;

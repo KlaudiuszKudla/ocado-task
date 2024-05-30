@@ -16,24 +16,24 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class BasketSplitterTest {
+class ObjectFactoryTest {
 
     private static final String ABSOLUTE_PATH_TO_CONFIG_FILE = "src/main/resources/config.json";
     private static final int MAX_PRODUCTS_IN_BASKET = 100;
     private static final int MAX_PRODUCTS_IN_CONFIG_FILE =1000;
     private static final int MAX_PROVIDERS_IN_CONFIG_FILE = 10;
-    private BasketSplitter basketSplitter;
+    private ObjectFactory objectFactory;
 
 
     @BeforeEach
     public void init() {
-        basketSplitter = new BasketSplitter(ABSOLUTE_PATH_TO_CONFIG_FILE);
+        objectFactory = new ObjectFactory();
     }
 
     @ParameterizedTest
     @MethodSource("testCases")
     void testSplitMethod(List<String> products, Map<String, List<String>> expected) throws IOException, TooManyProvidersException, TooManyProductsException {
-        Map<String, List<String>> result = basketSplitter.split(products);
+        Map<String, List<String>> result = objectFactory.split(products);
         assertEquals(expected, result);
     }
 
@@ -62,7 +62,7 @@ class BasketSplitterTest {
         List<String> items = Collections.nCopies(MAX_PRODUCTS_IN_BASKET + 1, "item");
 
         TooManyProductsException exception = assertThrows(TooManyProductsException.class, () -> {
-            basketSplitter.split(items);
+            objectFactory.split(items);
         });
         assertEquals("Przekroczono limi przedmiotów w koszyku (100)", exception.getMessage());
     }
@@ -75,7 +75,7 @@ class BasketSplitterTest {
             itemsToProvidersMap.put("item" + i, Arrays.asList("provider"));
         }
         TooManyProductsException exception = assertThrows(TooManyProductsException.class, () -> {
-            basketSplitter.checkSizesOfConfigFile(itemsToProvidersMap);
+            objectFactory.checkSizesOfConfigFile(itemsToProvidersMap);
         });
         assertEquals("Przekroczono limit przedmiotów w pliku konfiguracyjnym (" + MAX_PRODUCTS_IN_CONFIG_FILE + ")", exception.getMessage());
 
