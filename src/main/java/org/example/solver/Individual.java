@@ -7,8 +7,11 @@ public class Individual {
     private static List<Provider> providers;
     private static List<Item> items;
     private List<Integer> sequenceOfProviders;
+    private int uniqueNumberCounter = 0;
+    private int maxOccurences = 0;
     private float cost;
     private static int size;
+    private Map<String, List<String>> basket;
 
     public Individual(List<Item> items, List<Provider> providers) {
         this.items = items;
@@ -45,6 +48,8 @@ public class Individual {
                 maxOccurrences = entry.getValue();
             }
         }
+        this.maxOccurences = maxOccurrences;
+        this.uniqueNumberCounter = uniqueNumbersCount;
         this.cost = ((float) 1 / uniqueNumbersCount) * maxOccurrences;
     }
 
@@ -58,11 +63,22 @@ public class Individual {
         var firstCity = this.sequenceOfProviders.get(firstIndex);
         sequenceOfProviders.set(firstIndex, sequenceOfProviders.get(secondIndex));
         sequenceOfProviders.set(secondIndex, firstCity);
-        repairSolution();
+        repairSolutionV2();
         calculateCost();
     }
 
     public void repairSolution() {
+        for (int i = 0; i < size; i++) {
+            int providerNumber = sequenceOfProviders.get(i);
+            Provider provider = providers.get(providerNumber);
+            Item item = items.get(i);
+            if (!isSolutionValid(item, provider)) {
+                sequenceOfProviders.set(i, findRandomProviderNumber(item));
+            }
+        }
+    }
+
+    public void repairSolutionV2() {
         for (int i = 0; i < size; i++) {
             int providerNumber = sequenceOfProviders.get(i);
             Provider provider = providers.get(providerNumber);
@@ -76,15 +92,61 @@ public class Individual {
     public void generateGreedySequenceOfProviders() {
         for (int i = 0; i < size; i++) {
             Item item = items.get(i);
-            sequenceOfProviders.add(findMostCoveredProviderNumber(item));
+            sequenceOfProviders.add(findMostCoveredProviderNumberV2(item));
         }
         calculateCost();
     }
 
+    public void createBasket(){
+        basket = new HashMap<>();
+        for (int i = 0; i < size; i++) {
+            int providerNumber = sequenceOfProviders.get(i);
+            Provider provider = providers.get(providerNumber);
+            Item item = items.get(i);
+            List<String> itemList = basket.getOrDefault(provider.getName(), new ArrayList<>());
+            itemList.add(item.getName());
+            basket.put(provider.getName(), itemList);
+        }
+    }
+
     private int findMostCoveredProviderNumber(Item item) {
         int providerNumber = 0;
+        Random random = new Random();
         for (int i = 0; i < providers.size(); i++) {
-            if (item.getProviders().contains(providers.get(i).getName())) {
+            if (providers.get(i).getProducts().contains(item.getName())) {
+                if (providers.get(i+1).getProducts().contains(item.getName())) {
+                    providerNumber = random.nextInt(i,i+2);
+                }else{
+                providerNumber = i;
+                }
+                break;
+            }
+        }
+        return providerNumber;
+    }
+
+    private int findMostCoveredProviderNumberV2(Item item) {
+        int providerNumber = 0;
+        for (int i = 0; i < providers.size(); i++) {
+            if (providers.get(i).getProducts().contains(item.getName())) {
+                providerNumber = i;
+                break;
+            }
+        }
+        return providerNumber;
+    }
+
+
+
+
+    private int findRandomProviderNumber(Item item) {
+        int providerNumber = 0;
+        Random random = new Random();
+        int itemProvidersSize =  item.getProviders().size();
+        var rand = random.nextInt(itemProvidersSize);
+        String providerName = item.getProviders().get(rand);
+        for (int i = 0; i < providers.size(); i++) {
+            if(providerName.equals(providers.get(i).getName())) {
                 providerNumber = i;
                 break;
             }
@@ -112,4 +174,15 @@ public class Individual {
         return items;
     }
 
+    public Map<String, List<String>> getBasket() {
+        return basket;
+    }
+
+    public int getUniqueNumberCounter() {
+        return uniqueNumberCounter;
+    }
+
+    public int getMaxOccurences() {
+        return maxOccurences;
+    }
 }

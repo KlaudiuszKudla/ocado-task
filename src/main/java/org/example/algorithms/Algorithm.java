@@ -64,11 +64,9 @@ public class Algorithm {
         return worstResult;
     }
 
-    protected long getAverageCost(List<Individual> individuals){
-        var averageCost = 0;
-        for (Individual individual: individuals){
-            averageCost += individual.getCost();
-        }
+    protected double getAverageCost(List<Individual> individuals){
+        var averageCost = 0.0;
+        for (Individual individual: individuals) averageCost += individual.getCost();
         return averageCost/individuals.size();
     }
 }

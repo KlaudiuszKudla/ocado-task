@@ -36,6 +36,10 @@ public class GreedyAlgorithm {
         ObjectFactory objectFactory = new ObjectFactory();
         Individual individual = objectFactory.createIndividual();
         individual.generateGreedySequenceOfProviders();
+        individual.createBasket();
+        System.out.println("Greedy provider with maxOccurences" + individual.getMaxOccurences());
+        System.out.println("Greedy size of providers " + individual.getUniqueNumberCounter());
+        System.out.println(individual.getBasket());
         return individual;
     }
 }

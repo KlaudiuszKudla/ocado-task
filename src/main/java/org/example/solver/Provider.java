@@ -1,11 +1,12 @@
 package org.example.solver;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.List;
 
 public class Provider implements Comparable<Provider> {
     private final StringBuilder name = new StringBuilder();
-    private LinkedHashSet<String> products = new LinkedHashSet<>();
+    private List<String> products = new ArrayList<>();
 
     public Provider(String name, HashSet<String> products){
         setName(name);
@@ -22,11 +23,11 @@ public class Provider implements Comparable<Provider> {
         return name.toString();
     }
 
-    public LinkedHashSet<String> getProducts() {
+    public List<String> getProducts() {
         return products;
     }
 
-    public void setProducts(LinkedHashSet<String> products) {
+    public void setProducts(List<String> products) {
         this.products = products;
     }
 

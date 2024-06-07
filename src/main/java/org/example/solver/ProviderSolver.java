@@ -19,7 +19,7 @@ public class ProviderSolver extends LinkedHashSet<Provider> {
     }
 
     public void findMostCoveringProvider() {
-        LinkedHashSet<String> coveredElements = new LinkedHashSet<>();
+        List<String> coveredElements = new ArrayList<>();
         providers.stream()
                 .map(provider -> new AbstractMap.SimpleEntry<>(provider, providersIntersection(products, provider.getProducts())))
                 .filter(entry -> foundMoreCoveredElements(entry.getValue(), coveredElements))
@@ -31,13 +31,13 @@ public class ProviderSolver extends LinkedHashSet<Provider> {
         bestProvider.setProducts(coveredElements);
     }
 
-     private LinkedHashSet<String> providersIntersection(List<String> items, HashSet<String> products) {
+     private LinkedHashSet<String> providersIntersection(List<String> items, List<String> products) {
         LinkedHashSet<String> setProducts = new LinkedHashSet<>(items);
         setProducts.retainAll(products);
         return setProducts;
     }
 
-    private boolean foundMoreCoveredElements(Set<String> intersection, HashSet<String> coveredElements) {
+    private boolean foundMoreCoveredElements(Set<String> intersection, List<String> coveredElements) {
         return intersection.size() > coveredElements.size();
     }
 

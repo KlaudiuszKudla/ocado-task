@@ -45,7 +45,8 @@ public class JsonGenerator {
     }
 
     private static List<String> getRandomDeliveryMethods(Random random) {
-        int numberOfMethods = random.nextInt(DELIVERY_METHODS.size()) + 1; // At least 1 method
+//        int numberOfMethods = random.nextInt(DELIVERY_METHODS.size()) + 1; // At least 1 method
+        int numberOfMethods = random.nextInt(8) + 1; // At least 1 method
         Set<String> selectedMethods = new HashSet<>();
 
         while (selectedMethods.size() < numberOfMethods) {

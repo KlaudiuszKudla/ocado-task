@@ -18,7 +18,7 @@ public class GeneticAlgorithm extends Algorithm{
             writer.writeNext(headers);
             generateRandomIndividuals(popSize);
             Individual currentBestIndividual = null;
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < generations; i++) {
                 List<Individual> tournamentWinners = findTournamentWinners(population, 14, tourSize);
                 crossTournamentWinners(tournamentWinners, crossProbability, population, mutationProbability);
                 mutatePopulation(population, mutationProbability);
@@ -27,8 +27,15 @@ public class GeneticAlgorithm extends Algorithm{
                 var averageCost = getAverageCost(population);
                 String[] row = {String.valueOf(i + 1), String.valueOf(currentBestIndividual.getCost()), String.valueOf(worstResult), String.valueOf(averageCost)};
                 writer.writeNext(row);
+                currentBestIndividual.createBasket();
+                System.out.println("Genetic provider with maxOccurences" + currentBestIndividual.getMaxOccurences());
+                System.out.println("Genetic size of Providers" + currentBestIndividual.getUniqueNumberCounter());
+                System.out.println(currentBestIndividual.getBasket());
             }
-            System.out.println(currentBestIndividual);
+            currentBestIndividual.createBasket();
+            System.out.println("Genetic provider with maxOccurences" + currentBestIndividual.getMaxOccurences());
+            System.out.println("Genetic size of Providers" + currentBestIndividual.getUniqueNumberCounter());
+            System.out.println(currentBestIndividual.getBasket());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -82,14 +89,14 @@ public class GeneticAlgorithm extends Algorithm{
         var secondCut = rand.nextInt(firstcut, size);
         if (secondCut<size-1){
             for (int i = secondCut+1; i <size ; i++) {
-                var city = sequenceOfProviders1.get(i);
-                newSequenceOfProviders.set(i, city);
+                var provider = sequenceOfProviders1.get(i);
+                newSequenceOfProviders.set(i, provider);
             }
         }
         if (firstcut>0){
             for (int i = 0; i <firstcut ; i++) {
-                var city = sequenceOfProviders1.get(i);
-                newSequenceOfProviders.set(i, city);
+                var provider = sequenceOfProviders1.get(i);
+                newSequenceOfProviders.set(i, provider);
             }
         }
         Individual newIdividual = new Individual(newSequenceOfProviders);
