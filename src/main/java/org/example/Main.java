@@ -21,10 +21,10 @@ public class Main {
         RandomAlgorithm randomAlgorithm = new RandomAlgorithm();
         randomAlgorithm.randomAlgorithm();
 
-        int numberOfProducts = 500;
+        int numberOfProducts = 1000;
         Map<String, List<String>> products = JsonGenerator.generateProductsWithDelivery(numberOfProducts);
         Map<String, List<String>> products2 = new HashMap<>();
-        products2.put("Product 1", Arrays.asList("Courier", "In-store pick-up", "Parcel locker", "Pallet delivery", "Contactless delivery"));
+        products2.put("Product 1", Arrays.asList("Courier", "Parcel locker", "Pallet delivery", "Contactless delivery"));
         products2.put("Product 2", Arrays.asList("Courier", "Overnight shipping", "Regional shipping", "Green delivery"));
         products2.put("Product 3", Arrays.asList("Parcel locker", "In-store pick-up", "Temperature-controlled delivery","Standard post"));
         products2.put("Product 4", Arrays.asList("In-store pick-up", "White glove service", "Weekend delivery"));
@@ -42,18 +42,17 @@ public class Main {
 //                "White glove service", "Overnight shipping", "Regional shipping",
 //                "Bulk shipping"
 
-        JsonGenerator.generateProductsWithDelivertJson(products2, "src/main/resources/products.json");
+        JsonGenerator.generateProductsWithDelivertJson(products, "src/main/resources/products.json");
 
-        int numberOfProducts2 = 6;
-        List<String> basket = JsonGenerator.generateProducts(numberOfProducts2);
+        List<String> basket = JsonGenerator.generateProducts(numberOfProducts);
         JsonGenerator.generateJsonWithProducts(basket, "src/main/resources/basket.json");
         ObjectFactory objectFactory = new ObjectFactory();
         System.out.println("Zachłanny: " + objectFactory.split(basket));
 
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        geneticAlgorithm.geneticAlgorithm(50, 1000, 80,10,8, "src/main/resources/genetic");
+        geneticAlgorithm.geneticAlgorithm(120, 1000, 80,10,8, "src/main/resources/genetic.csv");
 
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm();
-        greedyAlgorithm.greedyAlgorithm("src/main/resources/greedy");
+        greedyAlgorithm.greedyAlgorithm("src/main/resources/greedy.csv");
     }
 }

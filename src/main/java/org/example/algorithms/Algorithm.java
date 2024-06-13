@@ -41,10 +41,10 @@ public class Algorithm {
 
     protected Individual findBestIndividual(List<Individual> individuals){
         Individual bestResult = null;
-        var bestScore = 0.0;
+        var bestScore = Float.MAX_VALUE;
         for (Individual individual: individuals){
             var score = individual.getCost();
-            if (score > bestScore){
+            if (score < bestScore){
                 bestScore = score;
                 bestResult = individual;
             }
@@ -53,10 +53,10 @@ public class Algorithm {
     }
     protected Individual findWorstIndividual(List<Individual> individuals){
         Individual worstResult = null;
-        var worstScore = Float.MAX_VALUE;
+        var worstScore = 0.0;
         for (Individual individual: individuals){
             var currentCost = individual.getCost();
-            if (currentCost < worstScore){
+            if (currentCost > worstScore){
                 worstScore = currentCost;
                 worstResult = individual;
             }

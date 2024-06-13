@@ -2,7 +2,7 @@ package org.example.solver;
 
 import java.util.*;
 
-public class Individual {
+public class Individual implements Cloneable{
 
     private static List<Provider> providers;
     private static List<Item> items;
@@ -18,6 +18,16 @@ public class Individual {
         this.providers = providers;
         sequenceOfProviders = new ArrayList<>();
         this.size = items.size();
+    }
+
+    public Individual(Individual other) {
+        this.providers = other.providers;
+        this.items = other.items;
+        this.sequenceOfProviders = other.sequenceOfProviders;
+        this.uniqueNumberCounter = other.uniqueNumberCounter;
+        this.maxOccurences = other.maxOccurences;
+        this.cost = other.cost;
+        this.basket = other.basket;
     }
 
     public Individual(List<Integer> sequenceOfProviders) {
@@ -50,7 +60,7 @@ public class Individual {
         }
         this.maxOccurences = maxOccurrences;
         this.uniqueNumberCounter = uniqueNumbersCount;
-        this.cost = ((float) 1 / uniqueNumbersCount) * maxOccurrences;
+        this.cost = ((float) 100 / maxOccurrences) * uniqueNumbersCount;
     }
 
     public void swapMutationV2() {
@@ -84,7 +94,7 @@ public class Individual {
             Provider provider = providers.get(providerNumber);
             Item item = items.get(i);
             if (!isSolutionValid(item, provider)) {
-                sequenceOfProviders.set(i, findMostCoveredProviderNumber(item));
+                sequenceOfProviders.set(i, findMostCoveredProviderNumberV2(item));
             }
         }
     }
@@ -184,5 +194,16 @@ public class Individual {
 
     public int getMaxOccurences() {
         return maxOccurences;
+    }
+
+    @Override
+    public Individual clone() {
+        try {
+            Individual clone = (Individual) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
